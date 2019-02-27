@@ -1,22 +1,22 @@
 ---
-title: SPSP Push Payments
+title: SPSP Invoices
 draft: 1
 ---
-# SPSP Push Payments
+# SPSP Invoices
 
 ## Preface
 
-This document describes how to conduct push payments via [STREAM](../0029-stream/0029-stream.md) once the payment details have been exchanged via the [Simple Payment Setup Protocol](../0009-simple-payment-setup-protocol/0009-simple-payment-setup-protocol.md) (SPSP).
+This document describes how to create an invoice and to conduct invoice payments via [STREAM](../0029-stream/0029-stream.md) once the payment details have been exchanged via the [Simple Payment Setup Protocol](../0009-simple-payment-setup-protocol/0009-simple-payment-setup-protocol.md) (SPSP).
 
 ## Introduction
 
 ### Motivation
 
-The Simple Payment Setup Protocol (SPSP) only descirbes how the details required for a STREAM connection are exchanged. However, it lacks a detailed explaination of how a push payment is conducted using this connection. 
+The Simple Payment Setup Protocol (SPSP) only descirbes how the details required for a STREAM connection are exchanged and how simple push payments are made. Invoices require the SPSP server to keep track of incoming payments, i.e. act as an accounting server. 
 
 ### Scope
 
-This document specifies basic server details needed by the client to set up a STREAM push payment. It is intended for use by end-user applications.
+This document specifies invoice specific endpoints on SPSP and payments to these. They are intended for use by end-user applications.
 
 ### Operation
 
@@ -26,31 +26,7 @@ Any SPSP server will expose an HTTPS endpoint called the SPSP Endpoint. The clie
 
 ### Query (`GET <SPSP Endpoint>`)
 
-The client queries the SPSP endpoint to get information about the server:
-
-#### Request
-
-(With the identifier `$example.com`)
-
-``` http
-GET /.well-known/pay HTTP/1.1
-Host: example.com
-Accept: application/spsp4+json, application/spsp+json
-```
-
-#### Response
-
-``` http
-HTTP/1.1 200 OK
-Content-Type: application/spsp4+json
-
-{
-  "destination_account": "example.ilpdemo.red.bob",
-  "shared_secret": "6jR5iNIVRvqeasJeCty6C+YB5X9FhSOUPCL/5nha5Vs="
-}
-```
-
-In case of an invoice SPSP server, it may respond with additional information.
+The client queries the SPSP endpoint to get information about the server as well as invoice specific details:
 
 #### Request
 
